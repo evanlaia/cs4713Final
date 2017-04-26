@@ -1,0 +1,14 @@
+//Programmer Defined functions
+def Void minMax (Ref Float[] fArrayM
+     , Ref Float fMax, Ref Float fMin):
+    fMax = 0.0;    // arbitrary low value
+    fMin = 1000.0; // arbitrary high value
+    for fItem in fArrayM:
+        if fItem > fMax:
+            fMax = fItem;
+        endif;
+        if fItem < fMin:
+            fMin = fItem;
+        endif;
+    endfor;
+enddef;

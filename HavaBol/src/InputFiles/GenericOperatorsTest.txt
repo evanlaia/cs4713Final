@@ -1,0 +1,165 @@
+//Testing generic operators ==
+Int x = 10;
+
+if (== x 10):
+	print("Correct");
+else:
+	print("Wrong");
+endif;
+
+Float y = 3.14;
+
+if (== y 3.14):
+	print("Correct");
+else:
+	print("Wrong");
+endif;
+
+Bool B = T;
+
+if(== B T):
+	print("Correct");
+else:
+	print("wrong");
+endif;
+
+String loc = "TX";
+
+if (== loc "TX"):
+	print("Correct");
+else:
+	print("wrong");
+endif;
+
+//Testing generic operators <
+Int x = 10;
+
+if (< x 12):
+	print("Correct");
+else:
+	print("Wrong");
+endif;
+
+Float y = 3.14;
+
+if (< y 3.15):
+	print("Correct");
+else:
+	print("Wrong");
+endif;
+
+String loc = "25";
+
+if (< loc "3"):
+	print("Correct");
+else:
+	print("wrong");
+endif;
+
+//Testing generic operators >
+Int x = 10;
+
+if (> x 1):
+	print("Correct");
+else:
+	print("Wrong");
+endif;
+
+Float y = 3.14;
+
+if (> y 3.13):
+	print("Correct");
+else:
+	print("Wrong");
+endif;
+
+String loc = "3";
+
+if (> loc "25"):
+	print("Correct");
+else:
+	print("wrong");
+endif;
+
+//Testing generic operators >=
+Int x = 10;
+
+if (>= x 1):
+	print("Correct");
+else:
+	print("Wrong");
+endif;
+
+Float y = 3.14;
+
+if (>= y 3.13):
+	print("Correct");
+else:
+	print("Wrong");
+endif;
+
+String loc = "3";
+
+if (>= loc "25"):
+	print("Correct");
+else:
+	print("wrong");
+endif;
+
+//Testing generic operators <=
+Int x = 10;
+
+if (<= x 12):
+	print("Correct");
+else:
+	print("Wrong");
+endif;
+
+Float y = 3.14;
+
+if (<= y 3.15):
+	print("Correct");
+else:
+	print("Wrong");
+endif;
+
+String loc = "25";
+
+if (<= loc "3"):
+	print("Correct");
+else:
+	print("wrong");
+endif;
+
+//Testing generic operators !=
+Int x = 10;
+
+if (!= x 12):
+	print("Correct");
+else:
+	print("Wrong");
+endif;
+
+Float y = 3.14;
+
+if (!= y 3.15):
+	print("Correct");
+else:
+	print("Wrong");
+endif;
+
+Bool B = T;
+
+if(!= B F):
+	print("Correct");
+else:
+	print("wrong");
+endif;
+
+String loc = "25";
+
+if (!= loc "3"):
+	print("Correct");
+else:
+	print("wrong");
+endif;
