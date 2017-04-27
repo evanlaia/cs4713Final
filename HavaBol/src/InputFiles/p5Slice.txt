@@ -1,0 +1,29 @@
+print(“Simple test, print 
+Sting team = “Liverpool”;
+print 
+print([team 0~4]); //returns “Live”
+print [team ~4]; //returns “Live”
+print [team 5~]; //returns “pool”
+
+String motto[6] = “Walk”, “On,”, “You’ll”, “Never”, “Walk”, “Alone”;
+
+
+print([motto 0~1]); //returns WalkOn,
+print([motto 0~1]); //returns WalkOn,
+
+print(“With hope in your heart”); 
+
+print(“and”); 
+int i;
+for i=2 to ELEM(motto):
+    print([motto i]);
+endfor;
+
+int i;
+for i = 2 to ELEM(motto):
+    print([motto i]);
+endfor;
+
+[team 0~5] = “Black”;
+
+print(team);
