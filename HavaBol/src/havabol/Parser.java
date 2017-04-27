@@ -840,6 +840,7 @@ public class Parser
 							System.out.print(printArr[i]);
 					}
 				}
+				System.out.print(" ");
 			}
 			else if( scan.currentToken.primClassif == Token.FUNCTION )
             {
