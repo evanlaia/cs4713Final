@@ -1,4 +1,7 @@
 package havabol;
+
+import java.util.Date;
+
 /**
  * Class used to contain data type and resulting values for expressions
  */
@@ -9,6 +12,7 @@ public class ResultValue {
 	public double doubleVal;	//float value
 	public int type;			//data type
 	public boolean boolVal;
+	public Date dateVal;
 //	public static final String[] types = //list of possible types
 //	{"Unidentified"
 //			,"INTEGER"	//1

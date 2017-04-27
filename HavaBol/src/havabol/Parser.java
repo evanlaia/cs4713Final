@@ -1,19 +1,30 @@
 package havabol;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 public class Parser 
 {
 
 	Scanner scan;
 	private StorageManager sm;	//used for storing variables and their values
+	private StorageManager tmpsm;
 	boolean bShowExpr = false;
 	public boolean bShowAssign = false;
+	HashMap<String, Token> functionSpots;
+	Token restorePoint;
 	
 	public Parser(Scanner scan) throws Exception
 	{
 		sm = new StorageManager();
+		functionSpots = new HashMap<String, Token>();
 		this.scan = scan;
+		restorePoint = new Token();
 		//scan.getNext();
 		runProgram();
 	}
@@ -76,16 +87,27 @@ public class Parser
 							break;
 						case "Date":
 							_RV.type = Token.DATE;
-							sm.putVariable(scan.nextToken.tokenStr, _RV);
+							String vName = scan.nextToken.tokenStr;
+							//sm.putVariable(scan.nextToken.tokenStr, _RV);
 							scan.getNext();
 							scan.getNext();//consume the variable
 							scan.getNext();//consume the '='
 							if(!scan.currentToken.tokenStr.matches("\"(\\d{4}-?\\d{2}-?\\d{2})\"")) {
-								handleException("XXXX-XX-XX");
+								handleException("Date error: Expected format, 'XXXX-XX-XX'");
 							} else {
+								_RV.strVal = scan.currentToken.tokenStr;
+								_RV.strVal = _RV.strVal.substring(1, _RV.strVal.length() - 1);
 								
+								int year = (int)NumericConversion.convert(_RV.strVal.substring(0,4));
+								int month = (int)NumericConversion.convert(_RV.strVal.substring(5,7));
+								int day = (int)NumericConversion.convert(_RV.strVal.substring(8,10));
+								Date date = new Date(year, month, day);
+								_RV.dateVal = date;
+//								SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd");
+//								Calendar calendar = new GregorianCalendar(2013, 10, 28);
+								sm.putVariable(vName, _RV);
 							}
-							_RV.assign(expr());
+							scan.getNext();
 							return _RV;
 						default:
 							//ERROR INVALID DATATYPE
@@ -352,9 +374,9 @@ public class Parser
 				}
 				break;
 			case Token.FUNCTION:
-				STFunction func = (STFunction) scan.symbolTable.getSymbol(scan.currentToken.tokenStr);
 				if( scan.currentToken.subClassif == Token.BUILTIN )
 				{
+					STFunction func = (STFunction) scan.symbolTable.getSymbol(scan.currentToken.tokenStr);
 					switch(scan.currentToken.tokenStr)
 					{	//BUILT-IN FUNCTIONS HERE
 						case "print":
@@ -380,7 +402,17 @@ public class Parser
 				}
 				else if( scan.currentToken.subClassif == Token.USER)
 				{	//USER DEFINED FUNCTIONS CODE HERE
-					
+					if( functionSpots.get(scan.currentToken.tokenStr) == null )
+					{
+						buildUserDefinedFunction();
+					}
+					else
+					{
+						restorePoint.iSourceLineNr = scan.currentToken.iSourceLineNr + 1;
+						restorePoint.iColPos = 0;
+						invokeUserFunction();
+						return null;
+					}
 				}
 				break;
 			case Token.SEPARATOR:
@@ -462,6 +494,153 @@ public class Parser
 		return _RV;
 	}
 	
+	private void invokeUserFunction() throws Exception
+	{
+		String functionName = scan.currentToken.tokenStr;
+		ArrayList<String> passedInparms = new ArrayList<String>();
+		ArrayList<ResultValue> parmResults = new ArrayList<ResultValue>();
+		STFunction func = (STFunction) scan.symbolTable.getSymbol(scan.currentToken.tokenStr);
+		scan.getNext();//consume the function name
+		scan.getNext();//consume the '('
+		
+		
+		for( int i=0; i < func.numArgs-1; i++)
+		{//Get the names of the passed in parameters and get values: can be functions, expr(), etc. 
+			passedInparms.add(scan.currentToken.tokenStr);
+			parmResults.add(expr());
+			while( !scan.currentToken.tokenStr.equals(",") ){ scan.getNext(); }//consume the parm name
+			scan.getNext();//consume the ','
+		}
+		passedInparms.add(scan.currentToken.tokenStr);
+		parmResults.add(expr());
+		
+		Token reset = functionSpots.get(functionName);
+		scan.iColPos = reset.iColPos;
+		scan.iSourceLineNr = reset.iSourceLineNr;
+		scan.textCharM = scan.sourceLineM.get(scan.iSourceLineNr).toCharArray();
+		scan.getNext();
+		scan.getNext();
+		scan.getNext();//consume the 'def'
+		scan.getNext();//consume the return type
+		scan.getNext();//consume function name
+		scan.getNext();//consume the '(
+		
+		//swap the storage manager
+		tmpsm = sm;
+		sm = func.sm;
+		
+		boolean isref = false;
+		for( int i=0; i < func.numArgs; i++ )
+		{
+			if( scan.currentToken.tokenStr.equals("Ref") ){
+				scan.getNext();//consume the 'Ref'
+				isref = true;
+			}
+			switch(scan.currentToken.tokenStr)
+			{
+				case "Float":
+					if( scan.nextToken.tokenStr.equals("[") )
+					{	//parm is an array
+						scan.getNext();//consume datatype
+						scan.getNext();//consume [
+						scan.getNext();//consume ]
+						if( isref )
+						{	//PassedByReference
+							sm.copyFloatArray(scan.currentToken.tokenStr, this.tmpsm.floatArrays.get(passedInparms.get(i)));
+							sm.putVariable(scan.currentToken.tokenStr, tmpsm.getValue(passedInparms.get(i)));
+						}
+					}
+					else
+					{	//parm is not array
+						scan.getNext();//consume datatype
+						if( isref )
+						{
+							sm.putVariable(scan.currentToken.tokenStr, tmpsm.getValue(passedInparms.get(i)));
+						}
+						else
+						{
+							sm.putVariable(scan.currentToken.tokenStr, parmResults.get(i));
+						}
+					}
+					break;
+				case "Int":
+					if( scan.nextToken.tokenStr.equals("[") )
+					{	//parm is an array
+						scan.getNext();//consume datatype
+						scan.getNext();//consume [
+						scan.getNext();//consume ]
+						if( isref )
+						{	//PassedByReference
+							sm.copyIntArray(scan.currentToken.tokenStr, this.tmpsm.intArrays.get(passedInparms.get(i)));
+							sm.putVariable(scan.currentToken.tokenStr, tmpsm.getValue(passedInparms.get(i)));
+						}
+					}
+					else
+					{	//parm is not array
+						scan.getNext();//consume datatype
+						if( isref )
+						{	//passing by reference, need same copy of RV
+							sm.putVariable(scan.currentToken.tokenStr, tmpsm.getValue(passedInparms.get(i)));
+						}
+						else
+						{	//Passing by value, need a new copy of RV
+							ResultValue rv = new ResultValue();
+							rv.type = parmResults.get(i).type;
+							rv.assign(parmResults.get(i));
+							sm.putVariable(scan.currentToken.tokenStr, rv);
+						}
+					}
+					break;
+			
+			}
+			isref = false;
+			scan.getNext();//consume the variable name
+			scan.getNext();//consume the ','
+		}
+		
+		do
+		{
+			scan.getNext();//consume the ;
+			Statement();
+		}while(!scan.nextToken.tokenStr.equals("enddef"));
+	}
+
+	private void buildUserDefinedFunction() throws Exception 
+	{
+		//StorageManager sm2 = new StorageManager();
+		Token t = new Token();
+		t.iSourceLineNr = scan.currentToken.iSourceLineNr;
+		t.iColPos = scan.currentToken.iColPos;
+		scan.getNext();//consume the 'def'
+		STFunction userfunc = null;
+		switch(scan.currentToken.tokenStr)
+		{ 				//public STFunction(String sym, int prim, int ret, int definedby, int numargs)
+			case "Void":
+				userfunc = new STFunction(scan.nextToken.tokenStr, Token.FUNCTION, Token.VOID, Token.USER, 0);//numargs 0 for now
+				break;
+		}
+		scan.getNext();//consume the return type
+		functionSpots.put(scan.currentToken.tokenStr, t);
+		scan.symbolTable.putSymbol(scan.currentToken.tokenStr, userfunc);
+		scan.getNext();//consume the function name
+		int numOfArgs = 0;
+		while( !scan.currentToken.tokenStr.equals(":") )
+		{
+			scan.getNext();
+			if( scan.currentToken.tokenStr.equals(",") )
+			{
+				numOfArgs++;
+			}
+		}
+		userfunc.numArgs = numOfArgs+1;
+		
+		while( !scan.currentToken.tokenStr.equals("enddef") )//CHANGE THIS FOR NESTED FUNCTIONS
+		{
+			scan.getNext();
+		}
+		
+	}
+
 	private void forLoopInt() throws Exception
 	{	//for iVal in iCM by 2:
 	    //	print("\t", iVal);
@@ -527,6 +706,26 @@ public class Parser
                 }
 				break;
 			case Token.FLOATARRAY:
+				rv.type = Token.FLOAT;
+				int n2 = sm.getFloatArraySize(scan.currentToken.tokenStr);
+				while(ct < n2)
+				{
+					double val = sm.floatArrays.get(scan.currentToken.tokenStr).get(ct);
+					rv.setValues(Double.toString(val));
+					sm.putVariable(ctString, rv);
+					scan.getNext();//consume the arrayName
+					forBody();
+					if( ct+1 < n2 )
+					{
+						scan.iSourceLineNr = resetPos.iSourceLineNr;
+						scan.textCharM = scan.sourceLineM.get(resetPos.iSourceLineNr).toCharArray();
+						scan.iColPos = resetPos.iColPos;
+						scan.getNext();
+						scan.getNext();
+						sm.deleteVariable(ctString);
+					}
+					ct++;
+				}
 				break;
 		}
 		}
@@ -564,6 +763,32 @@ public class Parser
 					}
 					break;
 				case Token.FLOATARRAY:
+					rv.type = Token.FLOAT;
+					int n2 = sm.getFloatArraySize(scan.currentToken.tokenStr);
+					while(ct < n2)
+					{
+						double val = sm.floatArrays.get(scan.currentToken.tokenStr).get(ct);
+						rv.setValues(Double.toString(val));
+						sm.putVariable(ctString, rv);
+						scan.getNext();//consume the arrayName
+						scan.getNext();//consume the 'by'
+						if( inc == 0 )
+						{
+							inc = Integer.parseInt(scan.currentToken.tokenStr);
+							scan.getNext();//consume the increment value
+						}
+						forBody();
+						if( ct+1 < n2 )
+						{
+							scan.iSourceLineNr = resetPos.iSourceLineNr;
+							scan.textCharM = scan.sourceLineM.get(resetPos.iSourceLineNr).toCharArray();
+							scan.iColPos = resetPos.iColPos;
+							scan.getNext();
+							scan.getNext();
+							sm.deleteVariable(ctString);
+						}
+						ct += inc;
+					}
 					break;
 			}
 		}
@@ -970,7 +1195,7 @@ public class Parser
 		}
 		System.out.println();
 	}
-	
+
 	public ResultValue expr() throws Exception
 	{
 		ResultValue _RV = null;
@@ -1055,6 +1280,24 @@ public class Parser
 							break;
 						case "#"://STRING CONCAT EXPRESSION
 							_RV = NumericConversion.concat(v1, v2);
+							break;
+						case "dateAge":
+							if(v1.dateVal == null || v2.dateVal == null) {
+								handleException("Date Age error: Expected 2 dates.");
+							}
+							_RV = invokeDateAge(v1.dateVal, v2.dateVal);
+							break;
+						case "dateDiff":
+							if(v1.dateVal == null || v2.dateVal == null) {
+								handleException("Date Diff error: Expected 2 dates.");
+							}
+							_RV = invokeDateDiff(v1.dateVal, v2.dateVal);
+							break;
+						case "dateAdj":
+							if(v1.dateVal == null) {
+								handleException("Date Adj error: Expected date and integer.");
+							}
+							_RV = invokeDateAdj(v1.dateVal, v2.intVal);
 							break;
 					}
 					v1 = _RV;
@@ -1176,6 +1419,10 @@ public class Parser
 				{
 					String arrayName= scan.currentToken.tokenStr;
 					scan.getNext();//consume arrayName
+					if( scan.currentToken.tokenStr.equals(",") )
+					{	//We are looking for an entire array to pass to a function
+						return _RV;
+					}
 					int subscript = expr().intVal;
 					double value = sm.getFromFloatArray(arrayName, subscript);
 					_RV.setValues(Double.toString(value));
@@ -1705,6 +1952,76 @@ public class Parser
 		}
 		scan.getNext();
 		return value;
+	}
+	
+	/**
+	 * Calculates the difference in years between 2 dates.
+	 * @param date1 more recent date
+	 * @param date2 date being compared
+	 * @return difference in years
+	 */
+	public ResultValue invokeDateAge(Date date1, Date date2) {
+		ResultValue RV = new ResultValue();
+		RV.type = Token.INTEGER;
+		int diff = 0;
+		Calendar calendar1 = new GregorianCalendar(date1.getYear(), date1.getMonth() - 1, date1.getDate());
+		Calendar calendar2 = new GregorianCalendar(date2.getYear(), date2.getMonth() - 1, date2.getDate());
+		if(calendar1.before(calendar2)) {
+			handleException("Date Age error: Expected later date as 1st argument.");
+		}
+		diff = date1.getYear() - date2.getYear();
+		if(date1.getMonth() < date2.getMonth()) {
+			diff--;
+		}
+		if(date1.getMonth() == date2.getMonth()) {
+			if(date1.getDate() < date2.getDate()) {
+				diff--;
+			}
+		}
+		RV.strVal = "" + diff;
+		RV.intVal = diff;
+		return RV;
+	}
+	
+	/**
+	 * Calculates difference in days between 2 dates.
+	 * @param date1 more recent date
+	 * @param date2 date being compared
+	 * @return difference in days
+	 */
+	public ResultValue invokeDateDiff(Date date1, Date date2) {
+		ResultValue RV = new ResultValue();
+		RV.type = Token.INTEGER;
+		Calendar calendar1 = new GregorianCalendar(date1.getYear(), date1.getMonth() - 1, date1.getDate());
+		Calendar calendar2 = new GregorianCalendar(date2.getYear(), date2.getMonth() - 1, date2.getDate());
+		if(calendar1.before(calendar2)) {
+			handleException("Date Diff error: Expected later date as 1st argument.");
+		}
+		TimeUnit timeUnit = TimeUnit.DAYS;
+		long diff = date1.getTime() - date2.getTime();
+		int diffDays = (int)timeUnit.convert(diff, TimeUnit.MILLISECONDS);
+		RV.strVal = "" + diffDays;
+		RV.intVal = diffDays;
+		
+		return RV;
+	}
+	
+	/**
+	 * Adjusts the date by the specified value.
+	 * @param date date to be adjusted
+	 * @param days number of days to adjust
+	 * @return new date (THIS FUNCTION STILL NEEDS WORK)
+	 */
+	public ResultValue invokeDateAdj(Date date, int days) {
+		ResultValue RV = new ResultValue();
+		RV.type = Token.DATE;
+		Calendar calendar = new GregorianCalendar(date.getYear(), date.getMonth() - 1, date.getDate());
+		calendar.add(Calendar.DAY_OF_MONTH, days);
+		Date newDate = new Date(calendar.YEAR, calendar.MONTH + 1, calendar.DAY_OF_MONTH);
+		RV.strVal = "" + calendar.YEAR + "-" + calendar.MONTH + "-" + calendar.DAY_OF_MONTH;
+		RV.dateVal = newDate;
+		
+		return RV;
 	}
 	
 	/**

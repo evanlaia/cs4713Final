@@ -216,6 +216,17 @@ public class StorageManager {
 		return j;
 	}
 
+
+	public int getFloatArraySize(String tokenStr)
+	{
+		int j=0;
+		for(int i=0; i < floatArrays.get(tokenStr).size(); i++, j++)
+		{
+			if( floatArrays.get(tokenStr).get(i) == -10000.0 ){return i;}
+		}
+		return j;
+	}
+	
 	public int getStringArraySize(String tokenStr)
 	{
 		for(int i=0; i < stringArrays.get(tokenStr).size(); i++)
@@ -223,5 +234,15 @@ public class StorageManager {
 			if( stringArrays.get(tokenStr).get(i) == null ){return i;}
 		}
 		return 0;
+	}
+
+	public void copyFloatArray(String s, ArrayList<Double> arrayList)
+	{
+		floatArrays.put(s, arrayList);
+	}
+
+	public void copyIntArray(String tokenStr, ArrayList<Integer> arrayList) 
+	{
+		intArrays.put(tokenStr, arrayList);
 	}
 }

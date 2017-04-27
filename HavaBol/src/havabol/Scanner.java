@@ -129,6 +129,10 @@ public class Scanner {
 			case "":
 				currentToken.primClassif = Token.EOF;
 				break;
+			case "def":
+				currentToken.primClassif = Token.FUNCTION;
+				currentToken.subClassif = Token.USER;
+				break;
 			default:
 				if( Character.isDigit(currentToken.tokenStr.charAt(0)) ) //potentially a numerical constant
 				{
