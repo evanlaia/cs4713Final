@@ -8,18 +8,18 @@ i = 0;
 fruit = 'larry';
 climber = 'pike';
 while bFlag:
-    i = i + 1;
+    i = (+ i 1);
     print("i=", i);
-    if fruit == "apple" or fruit == "orange" or fruit == "larry":
+    if (== fruit "apple") or (== fruit "orange") or (== fruit "larry"):
         print("it is a fruit");
-        if i > 2:
+        if (< i 2):
            print("i is greater than 2");
            break;
         else:
            print("i is <= 2");
         endif;
         print("inside while, after first inner if");
-        if climber == "pike":
+        if (== climber "pike"):
              print("it is pike");
              continue;
         else:
@@ -41,13 +41,13 @@ endfor;
 print("Nested for loops, sorting the array");
 Bool bChange;
 Int j;
-for i=0 to ELEM(iDM)-1:
+for i=0 to (- ELEM(iDM) 1):
     bChange = F;
-    for j=0 to ELEM(iDM)-i-1 by 1:
-        if iDM[j+1] < iDM[j]:
-           iTemp = iDM[j+1];
-           iDM[j+1] = iDM[j];
-           iDM[j] = iTemp;
+    for j=0 to (- (- ELEM(iDM) i) 1) by 1:
+        if (< [iDM (+ j 1)] [iDM j]):
+           iTemp = [iDM (+ j 1)];
+           [iDM (+ j 1)] = [iDM j];
+           [iDM j] = iTemp;
            bChange = T;
         endif;
     endfor;
@@ -58,5 +58,5 @@ for i=0 to ELEM(iDM)-1:
 endfor; 
 print("sorted array");
 for i=0 to ELEM(iDM):
-    print("\t", iDM[i]);
+    print("\t", [iDM i]);
 endfor;
