@@ -74,6 +74,19 @@ public class Parser
 						case "String":
 							_RV.type = Token.STRING;
 							break;
+						case "Date":
+							_RV.type = Token.DATE;
+							sm.putVariable(scan.nextToken.tokenStr, _RV);
+							scan.getNext();
+							scan.getNext();//consume the variable
+							scan.getNext();//consume the '='
+							if(!scan.currentToken.tokenStr.matches("\"(\\d{4}-?\\d{2}-?\\d{2})\"")) {
+								handleException("XXXX-XX-XX");
+							} else {
+								
+							}
+							_RV.assign(expr());
+							return _RV;
 						default:
 							//ERROR INVALID DATATYPE
 							break;
@@ -957,7 +970,7 @@ public class Parser
 		}
 		System.out.println();
 	}
-
+	
 	public ResultValue expr() throws Exception
 	{
 		ResultValue _RV = null;
@@ -1692,5 +1705,15 @@ public class Parser
 		}
 		scan.getNext();
 		return value;
+	}
+	
+	/**
+	 * Function for handling exceptions
+	 * @param message error message
+	 */
+	public void handleException(String message) {
+		ParserException pe = new ParserException(scan.currentToken.iSourceLineNr, message, scan.sourceFileNm);
+		System.err.println(pe);
+		System.exit(-1);
 	}
 }
