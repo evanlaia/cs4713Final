@@ -1,0 +1,30 @@
+//Conditional Operator Test
+Bool b = (> 10 5);
+Int x = 10;
+Bool b2 = (> x 5);
+Bool b3 = (< 10 20);
+Int x2 = 10;
+Bool b4 = (< x2 2);
+Bool b5 = (== 10 10);
+Bool b6 = (== x x2);
+
+Bool b7 = (>= 10 10);
+Bool b8 = (<= 10 10);
+Bool b9 = (!= 10 10);
+Bool b10 = (< (* (+ 3 3) 2) (+ (- 5 4) 2));
+
+if (< 32 10):
+	Float f = 2.21;
+	String s = "hi";
+else:
+	Float f = 2.22;
+	if (== "True" "True"):
+		String eq = "equal they are";
+	endif;
+endif;
+
+Int k = 10;
+
+while (<= k 10):
+	k = (+ k 1);
+endwhile;

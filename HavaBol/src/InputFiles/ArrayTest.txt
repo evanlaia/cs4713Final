@@ -1,0 +1,28 @@
+//Array Test
+
+Int temp[] = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10; //No max size given
+Float farr[] = 1.2, 2.3, 3.4, 4.5;
+String sarr[] = "hope", "this", "works", "but", "maybe";
+Bool barr[] = T, F, T;
+Int temp2[5] = 1, 2, 3, 4, 5; //All slots used
+Float farr2[5] = 1.2, 2.3, 3.4, 4.5, 5.6;
+String sarr2[3] = "hello", "sfsss", "fred";
+Bool barr2[3] = T, F, F, T;
+Int temp3[10];	//Declared but Not init
+Int temp4[10] = 1, 2, 3, 4, 5; //Not all slots used
+Float farr3[10];
+Float farr4[10] = 1.0, 2.0, 3.0, 4.0;
+String sarr3[10];
+String sarr4[10] = "Hello", "", "World";
+Bool barr3[3];
+Bool barr4[5] = T, F;
+[temp3 1] = 100;
+[farr3 7] = 3.14;
+[sarr3 8] = "insertedastring";
+[barr3 2] = F;
+
+[temp 2] = [temp2 3];
+[farr 3] = [farr2 3];
+[sarr 3] = [sarr2 1];
+[barr 2] = [barr2 0];
+[temp [temp [temp 3]]] = [temp [temp [temp [temp 3]]]];

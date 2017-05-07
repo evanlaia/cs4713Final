@@ -1,0 +1,8 @@
+(print "p5ForError2.txt");
+Int iCM[5] = 0, 10, 5, 2, 1;
+for iVal in iCM:
+	Int tempVal = iVal;
+	(print tempVal);
+endfor;
+
+(print "Error should be caught here:" tempVal);

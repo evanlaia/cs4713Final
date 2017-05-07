@@ -1,0 +1,6 @@
+(print "p5StringError.txt");
+String s = "Cat";
+(print s);
+(print [s 1]);
+(print "Error should be caught here:" [s 10]);
+(print "This should not be reached!");

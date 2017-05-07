@@ -31,6 +31,12 @@ public class ResultValue {
 		strVal = "";
 	}
 	
+	public ResultValue(ResultValue rV, int type) 
+	{
+		this.type = type;
+		this.assign(rV);
+	}
+
 	public void setIntVal(String val) {
 		strVal = val;
 		intVal = (Integer)NumericConversion.convert(val);
@@ -76,10 +82,9 @@ public class ResultValue {
 				}catch(NumberFormatException e){;}
 				break;
 			case Token.BOOLEAN: case Token.BOOLEANARRAY:
-				if( s.equals("T") ){ boolVal = true; }
-				else if( s.equals("F") ){ boolVal = false; }
+				if( s.equals("T") || s.equals("true") ){ boolVal = true; strVal = "T"; }
+				else if( s.equals("F") || s.equals("false") ){ boolVal = false; strVal = "F"; }
 				else{}//ERROR INVALID BOOLEAN VALUE
-				strVal = s;
 				break;
 		}
 	}

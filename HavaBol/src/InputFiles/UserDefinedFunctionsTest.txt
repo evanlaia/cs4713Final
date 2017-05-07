@@ -1,0 +1,13 @@
+def Void incrementTenTimes(Int x, Int counter):
+    Int val = x;
+    Int i = counter;
+    if (< i 10):
+        val = (+ val 1);
+        i = (+ i 1);
+        (print val);
+        (incrementTenTimes val i);
+    endif;
+enddef;
+Int val = 10;
+(print "Incrementing 10, 10 times... (Testing recursion)");
+(incrementTenTimes val 0);

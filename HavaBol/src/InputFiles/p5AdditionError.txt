@@ -1,0 +1,8 @@
+(print "p5AdditionError.txt");
+Int two = 2;
+String three = "3";
+Int four = 4;
+Int five = 5;
+(print "2 + 4 =" (+ two four));
+(print "2 + 3 = (Error should be captured here)" (+ two three));
+(print "This should not be reached!");

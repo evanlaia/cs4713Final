@@ -1,0 +1,10 @@
+(print "p5IfError2.txt");
+Int two = 2;
+Int three = 3;
+Int four = 4;
+
+if(> two three)
+	(print "wrong");
+else
+	(print "Shouldn't be reached! No ':'");
+endif;

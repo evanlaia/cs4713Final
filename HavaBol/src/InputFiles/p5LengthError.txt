@@ -1,0 +1,6 @@
+(print "p5LengthError.txt");
+String s = "Cat";
+Int iVal = 3;
+(print "Length of string =" (LENGTH s));
+(print "Length of string = (Error should be caught here)" (LENGTH iVal));
+(print "This should not be reached!");

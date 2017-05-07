@@ -1,0 +1,6 @@
+(print "p5ForError.txt");
+Int iCM[5] = 0, 10, 5, 2, 1;
+for iVal in iCM:
+	(print iVal);
+	
+(print "End of file, no endfor!");

@@ -1,0 +1,6 @@
+(print "p5SpacesError.txt");
+String sentence = "Hello there."
+Int iVal = 5;
+(print "sentence =" sentence "(SPACES sentence) =" (SPACES sentence));
+(print "iVal =" iVal "(SPACES iVal) = (Error should be caught here)" (SPACES iVal));
+(print "This should not be reached!");

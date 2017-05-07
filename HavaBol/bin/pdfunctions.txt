@@ -1,16 +1,4 @@
 //Programmer Defined functions
-
-print("p5Funky.txt");
-def Void funky (Int iP1, Int iP2):
-    iP1 = (* iP1 2);
-    iP2 = (* iP2 2);
-    print("funky", "iP1=", iP1, "iP2=", iP2);
-enddef;
-Int x= 10;
-Int y= 11;
-funky(x,(+ y 100));
-print("after", "x=", x, "y=", y);
-
 def Void minMax (Ref Float[] fArrayM
      , Ref Float fMax, Ref Float fMin):
     fMax = 0.0;    // arbitrary low value
@@ -31,3 +19,5 @@ Float someArr[5] = 4.12, 3.21, 2.3, 4.5, 5.6, 4.3;
 
 minMax(someArr, outMax, outMin);
 print("outside Max=", outMax, outMin);
+
+Int x = 10;

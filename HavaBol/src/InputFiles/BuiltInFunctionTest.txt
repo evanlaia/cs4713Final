@@ -1,0 +1,24 @@
+
+Int x = (LENGTH "hello");
+Int x2 = (LENGTH 'hello');
+String mystr = "How big is this string???";
+Int x3 = (LENGTH mystr);
+String mystr2 = 'How big is this string???';
+Int x4 = (LENGTH mystr2);
+Int x5 = (LENGTH (# "hello" ' world'));
+Bool b = (SPACES "hello");
+Bool c = (SPACES (# "      " ' '));
+Int arr[] = 1, 2, 4, 5;
+Int elem = (ELEM arr);
+Int arr2[10] = 1, 2, 3, 4,5;
+Int elem2 = (ELEM arr2);
+Float farr[] = 1.0, 2.0, 4.0, 5.0;
+Int felem = (ELEM farr);
+Float farr2[10] = 1.0, 2.0, 4.0, 5.0;// 1, 2, 3, 4,5;
+Int felem2 = (ELEM farr2);
+String sarr[] = "hi", "my", "mom", "is", "here";
+Int selem = (ELEM sarr);
+String sarr2[10] = "what", "is", "this";
+Int selem2 = (ELEM sarr2);
+Int smax = (MAXELEM sarr2);
+Int fmax = (MAXELEM farr);

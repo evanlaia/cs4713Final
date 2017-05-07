@@ -61,7 +61,13 @@ public class Scanner {
 			do
 			{
 				iSourceLineNr++;
-				//System.out.println(iSourceLineNr + " " + sourceLineM.get(iSourceLineNr));
+				if( iSourceLineNr >= sourceLineM.size() )
+				{
+					Token t = new Token();
+					t.primClassif = Token.EOF;
+					currentToken = t;
+					return currentToken.tokenStr;
+				}
 				textCharM = sourceLineM.get(iSourceLineNr).toCharArray();
 				iColPos = 0;
 			}
@@ -94,7 +100,7 @@ public class Scanner {
 				currentToken.primClassif = Token.OPERAND;
 				currentToken.subClassif = Token.BOOLEAN;
 				break;
-			case "+": case "-": case "*": case "/": case "#": case "^":
+			case "+": case "-": case "*": case "/": case "#": case "^": case "+=": case "-=":
 			case ">": case "<": case "!": case "=": case ">=": case "<=": case "!=": case "==":
 				switch(nextToken.tokenStr)
 				{

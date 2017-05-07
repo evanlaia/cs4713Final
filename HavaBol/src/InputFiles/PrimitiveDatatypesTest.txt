@@ -1,0 +1,32 @@
+//Testing primitive datatypes
+
+Int x;
+x = 10;
+Int x2 = 11;
+
+Float y = 3.14;
+Float y2;
+y2 = 4.2454;
+
+String s = "Hello";
+String s2;
+s2 = "World";
+
+Bool b = T;
+Bool b2;
+b2 = F;
+
+Int x3 = x;
+Float y3 = y;
+String s3 = s;
+Bool b3 = b;
+
+Int x4;
+Float y4;
+String s4;
+Bool b4;
+
+x4 = x;
+y4 = y;
+s4=s;
+b4 = b;

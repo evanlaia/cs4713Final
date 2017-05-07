@@ -1,0 +1,6 @@
+(print "p5StringError2.txt");
+String s = "Cat";
+(print s);
+(print [s 1]);
+String invalid = Cat;
+(print "This should not be reached!");

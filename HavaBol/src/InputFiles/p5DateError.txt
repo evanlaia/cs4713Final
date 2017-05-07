@@ -1,0 +1,5 @@
+(print "p5DateError.txt");
+Date aprilFools = "2017-04-01";
+String earlier = "2015-04-01";
+(print "date1 =", aprilFools, "date2 =", earlier, "diff = (Error should be caught here)", (dateDiff aprilFools earlier));
+(print "This line should not be reached!");

@@ -169,19 +169,46 @@ public class StorageManager {
 	
 	public void addToArray(ResultValue rv, String arrayName, int idx)
 	{
-		switch(rv.type)
+		/*switch(rv.type)
 		{
 			case Token.INTARRAY:
-				intArrays.get(arrayName).set(idx, Integer.valueOf(rv.intVal));
+				//intArrays.get(arrayName).set(idx, Integer.valueOf(rv.intVal));
+				intArrays.get(arrayName).add(rv.intVal);
 				break;
 			case Token.FLOATARRAY:
-				floatArrays.get(arrayName).set(idx, Double.valueOf(rv.doubleVal));
+				//floatArrays.get(arrayName).set(idx, Double.valueOf(rv.doubleVal));
+				floatArrays.get(arrayName).add(rv.doubleVal);
 				break;
 			case Token.STRINGARRAY:
-				stringArrays.get(arrayName).set(idx, rv.strVal);
+				//stringArrays.get(arrayName).set(idx, rv.strVal);
+				stringArrays.get(arrayName).add(rv.strVal);
 				break;
 			case Token.BOOLEANARRAY:
-				boolArrays.get(arrayName).set(idx, rv.boolVal);
+				//boolArrays.get(arrayName).set(idx, rv.boolVal);
+				boolArrays.get(arrayName).add(rv.boolVal);
+				break;
+		}*/
+		switch(rv.type)
+		{
+			case Token.INTEGER: case Token.INTARRAY:
+				//intArrays.get(arrayName).set(idx, Integer.valueOf(rv.intVal));
+				//intArrays.get(arrayName).add(rv.intVal);
+				this.insertInteger(rv.intVal, arrayName, false);
+				break;
+			case Token.FLOAT: case Token.FLOATARRAY:
+				//floatArrays.get(arrayName).set(idx, Double.valueOf(rv.doubleVal));
+				//floatArrays.get(arrayName).add(rv.doubleVal);
+				this.insertFloat(rv.doubleVal, arrayName, false);
+				break;
+			case Token.STRING: case Token.STRINGARRAY:
+				//stringArrays.get(arrayName).set(idx, rv.strVal);
+				//stringArrays.get(arrayName).add(rv.strVal);
+				this.insertString(rv.strVal, arrayName, false);
+				break;
+			case Token.BOOLEAN: case Token.BOOLEANARRAY:
+				//boolArrays.get(arrayName).set(idx, rv.boolVal);
+				//boolArrays.get(arrayName).add(rv.boolVal);
+				this.insertBoolean(rv.boolVal, arrayName, false);
 				break;
 		}
 	}
@@ -241,8 +268,26 @@ public class StorageManager {
 		floatArrays.put(s, arrayList);
 	}
 
-	public void copyIntArray(String tokenStr, ArrayList<Integer> arrayList) 
-	{
-		intArrays.put(tokenStr, arrayList);
+	public void initArray(String arrayName, ResultValue rv, int mv)
+	{	
+		switch(rv.type)
+		{
+			case Token.INTEGER:
+				this.initializeIntArray(arrayName, mv);
+				rv.type = Token.INTARRAY;
+				break;
+			case Token.FLOAT:
+				this.initializeFloatArray(arrayName, mv);
+				rv.type = Token.FLOATARRAY;
+				break;
+			case Token.STRING:
+				this.initializeStringArray(arrayName, mv);
+				rv.type = Token.STRINGARRAY;
+				break;
+			case Token.BOOLEAN:
+				this.initializeBoolArray(arrayName, mv);
+				rv.type = Token.BOOLEANARRAY;
+				break;
+		}
 	}
 }

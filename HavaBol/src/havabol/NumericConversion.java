@@ -158,4 +158,252 @@ public class NumericConversion {
 		RV.strVal = v1.strVal.substring(0, v1.strVal.length()-1) + v2.strVal.substring(1);
 		return RV;
 	}
+	
+	public static ResultValue greaterThan(ResultValue v1, ResultValue v2)
+	{
+		ResultValue RV = new ResultValue();
+		RV.type = Token.BOOLEAN;
+		switch (v1.type)
+		{
+			case Token.INTEGER:
+				if( v1.intVal > v2.intVal )
+				{
+					RV.setValues(Boolean.toString(true));
+				}
+				else
+				{
+					RV.setValues(Boolean.toString(false));
+				}
+				break;
+			case Token.FLOAT:
+				if( v1.doubleVal > v2.doubleVal )
+				{
+					RV.setValues(Boolean.toString(true));
+				}
+				else
+				{
+					RV.setValues(Boolean.toString(false));
+				}
+				break;
+			case Token.STRING:
+				int result = v1.strVal.compareTo(v2.strVal);
+				if( result > 0 )
+				{
+					RV.setValues(Boolean.toString(true));
+				}
+				else
+				{
+					RV.setValues(Boolean.toString(false));
+				}
+				break;
+		}
+		return RV;
+	}
+	
+	public static ResultValue greaterThanETo(ResultValue v1, ResultValue v2)
+	{
+		ResultValue RV = new ResultValue();
+		RV.type = Token.BOOLEAN;
+		switch (v1.type)
+		{
+			case Token.INTEGER:
+				if( v1.intVal >= v2.intVal )
+				{
+					RV.setValues(Boolean.toString(true));
+				}
+				else
+				{
+					RV.setValues(Boolean.toString(false));
+				}
+				break;
+			case Token.FLOAT:
+				if( v1.doubleVal >= v2.doubleVal )
+				{
+					RV.setValues(Boolean.toString(true));
+				}
+				else
+				{
+					RV.setValues(Boolean.toString(false));
+				}
+				break;
+			case Token.STRING:
+				int result = v1.strVal.compareTo(v2.strVal);
+				if( result >= 0 )
+				{
+					RV.setValues(Boolean.toString(true));
+				}
+				else
+				{
+					RV.setValues(Boolean.toString(false));
+				}
+				break;
+		}
+		return RV;
+	}
+
+	public static ResultValue lessThan(ResultValue v1, ResultValue v2) 
+	{
+		ResultValue RV = new ResultValue();
+		RV.type = Token.BOOLEAN;
+		switch (v1.type)
+		{
+		case Token.INTEGER:
+			if( v1.intVal < v2.intVal )
+			{
+				RV.setValues(Boolean.toString(true));
+			}
+			else
+			{
+				RV.setValues(Boolean.toString(false));
+			}
+			break;
+		case Token.FLOAT:
+			if( v1.doubleVal < v2.doubleVal )
+			{
+				RV.setValues(Boolean.toString(true));
+			}
+			else
+			{
+				RV.setValues(Boolean.toString(false));
+			}
+			break;
+		case Token.STRING:
+			int result = v1.strVal.compareTo(v2.strVal);
+			if( result < 0 )
+			{
+				RV.setValues(Boolean.toString(true));
+			}
+			else
+			{
+				RV.setValues(Boolean.toString(false));
+			}
+			break;
+		}
+		return RV;
+	}
+	
+	public static ResultValue lessThanETo(ResultValue v1, ResultValue v2) 
+	{
+		ResultValue RV = new ResultValue();
+		RV.type = Token.BOOLEAN;
+		switch (v1.type)
+		{
+		case Token.INTEGER:
+			if( v1.intVal <= v2.intVal )
+			{
+				RV.setValues(Boolean.toString(true));
+			}
+			else
+			{
+				RV.setValues(Boolean.toString(false));
+			}
+			break;
+		case Token.FLOAT:
+			if( v1.doubleVal <= v2.doubleVal )
+			{
+				RV.setValues(Boolean.toString(true));
+			}
+			else
+			{
+				RV.setValues(Boolean.toString(false));
+			}
+			break;
+		case Token.STRING:
+			int result = v1.strVal.compareTo(v2.strVal);
+			if( result <= 0 )
+			{
+				RV.setValues(Boolean.toString(true));
+			}
+			else
+			{
+				RV.setValues(Boolean.toString(false));
+			}
+			break;
+		}
+		return RV;
+	}
+
+	public static ResultValue equalTo(ResultValue v1, ResultValue v2)
+	{
+		ResultValue RV = new ResultValue();
+		RV.type = Token.BOOLEAN;
+
+		switch(v1.type)
+		{
+			case Token.INTEGER:
+				if( v1.intVal == v2.intVal )
+				{
+					RV.setValues(Boolean.toString(true));
+				}
+				else
+				{
+					RV.setValues(Boolean.toString(false));
+				}
+				break;
+			case Token.FLOAT:
+				if( v1.doubleVal == v2.doubleVal )
+				{
+					RV.setValues(Boolean.toString(true));
+				}
+				else
+				{
+					RV.setValues(Boolean.toString(false));
+				}
+				break;
+			case Token.STRING:
+				int result = v1.strVal.compareTo(v2.strVal);
+				if( result == 0 )
+				{
+					RV.setValues(Boolean.toString(true));
+				}
+				else
+				{
+					RV.setValues(Boolean.toString(false));
+				}
+				break;
+		}
+		return RV;
+	}
+	
+	public static ResultValue notEqualTo(ResultValue v1, ResultValue v2)
+	{
+		ResultValue RV = new ResultValue();
+		RV.type = Token.BOOLEAN;
+
+		switch(v1.type)
+		{
+			case Token.INTEGER:
+				if( v1.intVal != v2.intVal )
+				{
+					RV.setValues(Boolean.toString(true));
+				}
+				else
+				{
+					RV.setValues(Boolean.toString(false));
+				}
+				break;
+			case Token.FLOAT:
+				if( v1.doubleVal != v2.doubleVal )
+				{
+					RV.setValues(Boolean.toString(true));
+				}
+				else
+				{
+					RV.setValues(Boolean.toString(false));
+				}
+				break;
+			case Token.STRING:
+				int result = v1.strVal.compareTo(v2.strVal);
+				if( result != 0 )
+				{
+					RV.setValues(Boolean.toString(true));
+				}
+				else
+				{
+					RV.setValues(Boolean.toString(false));
+				}
+				break;
+		}
+		return RV;
+	}
 }

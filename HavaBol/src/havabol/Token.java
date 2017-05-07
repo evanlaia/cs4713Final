@@ -81,6 +81,15 @@ public class Token
         this("");   // invoke the other constructor
     }
     
+    public Token(Token t)
+    {
+    	this.iSourceLineNr = t.iSourceLineNr;
+    	this.iColPos = t.iColPos;
+    	this.primClassif = t.primClassif;
+    	this.subClassif = t.subClassif;
+    	this.tokenStr = t.tokenStr;
+    }
+    
     public void printToken()
     {
         String primClassifStr;

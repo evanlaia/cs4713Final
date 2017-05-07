@@ -1,0 +1,5 @@
+(print "p5ArrayError.txt");
+Int iCM[5] = 10, 5, 4, 3, 2;
+(print [iCM 0] [iCM[1]);
+(print "Error should be reached here!" [iCM 10]);
+(print "This should not be reached!");

@@ -1,0 +1,6 @@
+(print "p5ArrayError2.txt");
+Int iCM[5] = 10, 5, 4, 3, 2;
+(print [iCM 0] [iCM[1]);
+Float index = 2.5;
+[iCM index] = 20;
+(print "This should not be reached");

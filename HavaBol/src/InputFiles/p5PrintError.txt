@@ -1,0 +1,8 @@
+(print "p5PrintError.txt");
+Int i;
+i = (+ 5 2);
+Int j;
+j = (-7 5);
+(print "i=" i "j=" j);
+(print "i-j= (Error should be caught here.)" (-i j);
+(print "This line should not be reached!");

@@ -1,0 +1,7 @@
+//Testing primitive datatypes
+
+Int x;
+x = 10;
+Int x2 = 11;
+
+y2 = 10;

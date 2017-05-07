@@ -1,0 +1,31 @@
+//Numeric Operator Test
+
+Int x = (+ 3 1); //x should be 4
+Int x2 = (+ 3 2 1 4 5 6 7 8 8); //should be 6
+Int y = (- 2 1); //x should be 1
+Int y2 = (- 100 10 10 10 10 10 10) //should be 40
+Int z = (* 2 2); //x should be 4
+Int z2 = (* 2 2 2 2 2)//x should be 16
+Int k = (/ 4 2); //k should be 2
+Int k2 = (/ 120 2 2 2); //should be 15
+Int l = (^ 3 2); //l should be 9
+Int l2 = (^ 2 2 2 2);//l2 ??
+Float f = (+ 3.00 3.00);
+Float f2 = (+ 3.00 2.00 3.45 5.44 2.34);
+Float f3 = (- 100.0 12.00 12.34 23.44);
+Float f4 = (* 10.00 12.00 43.22 2.0);
+Float f5 = (/ 100.0 25.0 2.0);
+Float f6 = (^ 2.0 4.0 2.0 2.0);
+
+Int arrx[10] = 1, 2, 3, 4, 5;
+Float arry[10] = 1.0, 2.0, 3.0, 4.0, 5.0;
+
+Int sumx = (/ (+ [arrx 1] [arrx 2] [arrx 3] [arrx 4] [arrx 0]) 3);
+Float sumy = (/ 45.0 (+ [arry 0] [arry 1] [arry 2] [arry 3] [arry 4]));
+Int lastsum = (* (+ (^ (- 10 2) 2) 6) 2);
+Float pi = (- 3.14);
+Int negx = (- x);
+Int negx2 = (-x2);
+Float newpi = (- pi);
+String s = (# "Hello" "World");
+String s2 = (# "Hello" ' ' "World");

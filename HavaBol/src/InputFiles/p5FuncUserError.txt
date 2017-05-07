@@ -1,0 +1,23 @@
+print("p5FuncUserError.txt");
+def Void minMax (Float fArrayM[]
+     , Float fMax, Float fMin):
+    fMax = 0.0;    // arbitrary low value
+    fMin = 1000.0; // arbitrary high value
+    for fItem in fArrayM:
+        if (> fItem fMax):
+            fMax = fItem;
+        endif;
+        if (< fItem fMin):
+            fMin = fItem;
+        endif;
+    endfor;
+    (print "inside minMax fMax=" fMax "fMin=" fMin);
+    //return;
+//enddef;
+
+Float fArrM [5]= 50.0, 65.0, 35.0;
+Float fHi = 0;
+Float fLo = 0;
+(print "before minMax");
+(minMax fArrm fHi fLo);
+(print "End of file, no enddef!");

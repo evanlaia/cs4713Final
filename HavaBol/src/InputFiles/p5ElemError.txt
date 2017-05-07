@@ -1,0 +1,5 @@
+(print "p5ElemError.txt");
+String numsM[5] = "One", "Two", "Three", "Four", "Five";
+Int iVal = 5;
+(print "numsM has" (ELEM numsM) "elements populated.");
+(print "iVal has (Error should be caught here)" (ELEM iVal) "elements populated.");
